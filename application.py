@@ -12,7 +12,7 @@ def search():
     web_data = client.web.search(query="Beyonce")
     for web_page in web_data.web_pages.value:
         if web_page.url.startswith("https://www.instagram.com/"):
-            return web_page
+            return web_page.url
 
 @app.route("/")
 def hello():
