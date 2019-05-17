@@ -16,5 +16,5 @@ def search():
 
 @app.route("/")
 def hello():
-    return search()
+    return render_template("index.html")
 
