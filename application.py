@@ -16,6 +16,5 @@ def search():
 
 @app.route("/")
 def hello():
-    #search()
-    return "newnew"
+    return search()
 
