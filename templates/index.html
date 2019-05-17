@@ -1,10 +1,41 @@
-<HTML>
-<HEAD>
-<TITLE>It is so cool</TITLE>
-</HEAD>
-<BODY>
-    <p>Right?</p>
-    <p></p>
-    <p>Apache, here I come</p>
-</BODY>
-</HTML>
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>SerachInstaService</title>
+</head>
+
+<body>
+  <div class=".SearchContainer container-fluid">
+    <div class="row">
+      <div class="col-xs-2">
+        <input type='text' id="searchVal"> </input>
+        <button id="search" title="Search" onClick="SearchInsta()"> Search!</button>
+          <select id="SearchHistoryList" onClick="getSearchHistory()"" onChange="choose(this)"> </select>
+     <a href="#" id="SerachResult"></a>
+  </div>
+  </div>
+   </div>
+</body>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+
+function SearchInsta(){
+	const val = document.getElementById("searchVal").value;
+	const Url = 'http://127.0.0.1:5000/search?value=' + val;
+	$.ajax({
+    url: Url,
+    success: function(data) {
+	alert(data);
+      document.getElementById("SerachResult").href = data;
+	  document.getElementById("SerachResult").innerHTML = data;
+    }
+  });
+}
+
+</script>
+
+</html>
+
