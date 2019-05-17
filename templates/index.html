@@ -18,7 +18,7 @@
   </div>
    </div>
 </body>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
 <script type="text/javascript">
 
 
@@ -28,7 +28,6 @@ function SearchInsta(){
 	$.ajax({
     url: Url,
     success: function(data) {
-	alert(data);
       document.getElementById("SerachResult").href = data;
 	  document.getElementById("SerachResult").innerHTML = data;
     }
