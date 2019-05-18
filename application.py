@@ -25,10 +25,11 @@ def search_insta(val):
         if web_page.url.startswith("https://www.instagram.com/"):
             return web_page.url
 
-def get_result_from_db(to_search):
-    cursor.execute("SELECT * from dbo.search_history where search_name = '{}'".format(to_search))
-    all = cursor.fetchone()
-    return all[1]
+# def get_result_from_db(to_search):
+#     cursor.execute("SELECT * from dbo.search_history where search_name = '{}'".format(to_search))
+#     all = cursor.fetchone()
+#     print(all)
+#     return all[1]
 
 @app.route("/")
 def hello():
@@ -37,10 +38,10 @@ def hello():
 
 @app.route("/search")
 def search():
-    # TODO : find in data base - if not exist search from bing
     to_search = request.args.get('value', 0)
     try:
-        res = get_result_from_db(to_search)
+        res = "test"
+        #res = get_result_from_db(to_search)
     except:
         res = search_insta(to_search)
     return res
