@@ -48,7 +48,7 @@ def home():
 def search():
     to_search = request.args.get('value', 0)
     res = get_result_from_db(to_search)
-    return res[0] if res else search_insta(to_search)
+    return res[1] if res else search_insta(to_search)
 
 # if __name__ == "__main__":
 # 	app.run()
