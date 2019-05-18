@@ -6,22 +6,11 @@ from msrest.authentication import CognitiveServicesCredentials
 
 app = Flask(__name__)
 
-# bing search client connection
+# TODO: put subscription key in env vars
 subscription_key = "2e702b743ba744a6be5948828d355d6b"
 client = WebSearchAPI(CognitiveServicesCredentials(subscription_key))
 
-# sql database connection
-# server = 'db-shaked-test.database.windows.net,1443'
-# database = 'db-shaked-test'
-# username = 'shaked@db-shaked-test'
-# password = 'Aa123456'
-# driver = '{SQL Server}'
-
-# Obtain connection string information from the portal
-
-
-
-# Construct connection string
+# TODO: put connection params in env vars
 try:
     conn = mysql.connector.connect(user="shaked@shaked-test-db", password="Aa123456",
                                   host="shaked-test-db.mysql.database.azure.com", port=3306, database="search-history")
@@ -36,36 +25,30 @@ except mysql.connector.Error as err:
 else:
   cursor = conn.cursor()
 
+
 def search_insta(val):
     web_data = client.web.search(query=val)
     for web_page in web_data.web_pages.value:
         if web_page.url.startswith("https://www.instagram.com/"):
             return web_page.url
 
-# def get_result_from_db(to_search):
-#     cursor.execute("SELECT * from dbo.search_history where search_name = '{}'".format(to_search))
-#     all = cursor.fetchone()
-#     return all[1]
+
+def get_result_from_db(to_search):
+    cursor.execute("SELECT * FROM history WHERE person_name = '{}'".format(to_search))
+    res = cursor.fetchone()
+    return res
+
 
 @app.route("/")
-def hello():
+def home():
     return render_template("index.html")
+
 
 @app.route("/search")
 def search():
     to_search = request.args.get('value', 0)
-    res = search_insta(to_search)
-    return res
+    res = get_result_from_db(to_search)
+    return res[0] if res else search_insta(to_search)
 
-# @app.route("/search")
-# def search():
-#     to_search = request.args.get('value', 0)
-#     try:
-#         res = get_result_from_db(to_search)
-#     except:
-#         res = search_insta(to_search)
-#     return res
-
-
-if __name__ == "__main__":
-	app.run()
+# if __name__ == "__main__":
+# 	app.run()
