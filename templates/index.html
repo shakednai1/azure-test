@@ -12,14 +12,27 @@
       <div class="col-xs-2">
         <input type='text' id="searchVal"> </input>
         <button id="search" title="Search" onClick="SearchInsta()"> Search!</button>
-          <select id="SearchHistoryList" onClick="getSearchHistory()"" onChange="choose(this)"> </select>
-     <a href="#" id="SerachResult"></a>
+		<a href="#" id="SerachResult"></a>
+	   		<ol id="list1"></ol>
   </div>
   </div>
+  
    </div>
 </body>
 <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+
 <script type="text/javascript">
+
+var myobject = ['A', 'B', 'C'];
+var ulist = document.getElementById("list1");
+for (obj in myobject) {
+	var newItem = document.createElement("li");
+	var a = document.createElement("a");
+	a.textContent = myobject[obj];
+	a.setAttribute('href', myobject[obj]);
+	newItem.appendChild(a);
+	ulist.appendChild(newItem);
+}
 
 
 function SearchInsta(){
@@ -34,6 +47,10 @@ function SearchInsta(){
     }
   });
 }
+
+
+
+
 
 </script>
 
