@@ -39,7 +39,7 @@ def search():
     to_search = request.args.get('value', 0)
     try:
         res = get_result_from_db(to_search)
-    except IndexError:
+    except:
         res = search_insta(to_search)
     return res
 

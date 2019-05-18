@@ -25,6 +25,7 @@
 function SearchInsta(){
 	const val = document.getElementById("searchVal").value;
 	const Url = 'https://shaked-test-instagram.azurewebsites.net/search?value=' + val;
+	//const Url = 'http://127.0.0.1:5000/search?value=' + val;
 	$.ajax({
     url: Url,
     success: function(data) {
