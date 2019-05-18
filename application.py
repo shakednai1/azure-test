@@ -1,4 +1,5 @@
-import pyodbc
+import mysql.connector
+from mysql.connector import errorcode
 from flask import Flask, render_template, request
 from azure.cognitiveservices.search.websearch import WebSearchAPI
 from msrest.authentication import CognitiveServicesCredentials
@@ -15,10 +16,25 @@ client = WebSearchAPI(CognitiveServicesCredentials(subscription_key))
 # username = 'shaked@db-shaked-test'
 # password = 'Aa123456'
 # driver = '{SQL Server}'
-cnxn = pyodbc.connect("Driver={ODBC Driver 13 for SQL Server};Server=tcp:db-shaked-test.database.windows.net,1433;"
-                      "Database=db-shaked-test;Uid=shaked@db-shaked-test;Pwd=Aa123456;"
-                      "Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30")
-cursor = cnxn.cursor()
+
+# Obtain connection string information from the portal
+
+
+
+# Construct connection string
+try:
+    conn = mysql.connector.connect(user="shaked@shaked-test-db", password="Aa123456",
+                                  host="shaked-test-db.mysql.database.azure.com", port=3306, database="search-history")
+    print("Connection established")
+except mysql.connector.Error as err:
+  if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+    print("Something is wrong with the user name or password")
+  elif err.errno == errorcode.ER_BAD_DB_ERROR:
+    print("Database does not exist")
+  else:
+    print(err)
+else:
+  cursor = conn.cursor()
 
 def search_insta(val):
     web_data = client.web.search(query=val)
@@ -51,5 +67,5 @@ def search():
 #     return res
 
 
-# if __name__ == "__main__":
-# 	app.run()
+if __name__ == "__main__":
+	app.run()
