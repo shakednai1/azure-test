@@ -15,9 +15,9 @@ client = WebSearchAPI(CognitiveServicesCredentials(subscription_key))
 # username = 'shaked@db-shaked-test'
 # password = 'Aa123456'
 # driver = '{SQL Server}'
-# cnxn = pyodbc.connect("DRIVER={SQL Server};SERVER=db-shaked-test.database.windows.net,1433;DATABASE=db-shaked-test;"
-#                       "UID=shaked@db-shaked-test;PWD=Aa123456")
-# cursor = cnxn.cursor()
+cnxn = pyodbc.connect("DRIVER={ODBC Driver 13 for SQL Server};SERVER=db-shaked-test.database.windows.net;DATABASE=db-shaked-test;"
+                      "UID=shaked@db-shaked-test;PWD=Aa123456")
+cursor = cnxn.cursor()
 
 def search_insta(val):
     web_data = client.web.search(query=val)
