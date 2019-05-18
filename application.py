@@ -15,15 +15,20 @@ client = WebSearchAPI(CognitiveServicesCredentials(subscription_key))
 # username = 'shaked@db-shaked-test'
 # password = 'Aa123456'
 # driver = '{SQL Server}'
-# cnxn = pyodbc.connect("DRIVER={SQL Server};SERVER=db-shaked-test.database.windows.net,1433;DATABASE=db-shaked-test;"
-#                       "UID=shaked@db-shaked-test;PWD=Aa123456")
-# cursor = cnxn.cursor()
+cnxn = pyodbc.connect("DRIVER={SQL Server};SERVER=db-shaked-test.database.windows.net,1433;DATABASE=db-shaked-test;"
+                      "UID=shaked@db-shaked-test;PWD=Aa123456")
+cursor = cnxn.cursor()
 
 def search_insta(val):
     web_data = client.web.search(query=val)
     for web_page in web_data.web_pages.value:
         if web_page.url.startswith("https://www.instagram.com/"):
             return web_page.url
+
+def get_result_from_db(to_search):
+    cursor.execute("SELECT * from dbo.search_history where search_name = '{}'".format(to_search))
+    all = cursor.fetchone()
+    return all[1]
 
 @app.route("/")
 def hello():
@@ -35,17 +40,11 @@ def search():
     # TODO : find in data base - if not exist search from bing
     to_search = request.args.get('value', 0)
     try:
-        # res = get_result_from_db(to_search)
-        res =4
+        res = get_result_from_db(to_search)
     except:
         res = search_insta(to_search)
     return res
 
-
-# def get_result_from_db(to_search):
-#     cursor.execute("SELECT * from dbo.search_history where search_name = '{}'".format(to_search))
-#     all = cursor.fetchone()
-#     return all[1]
 
 # if __name__ == "__main__":
 # 	app.run()
