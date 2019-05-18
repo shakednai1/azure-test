@@ -23,17 +23,29 @@
 
 <script type="text/javascript">
 
-var myobject = ['A', 'B', 'C'];
-var ulist = document.getElementById("list1");
-for (obj in myobject) {
+var myobject =[];
+//const Url = 'http://127.0.0.1:5000/history';
+const Url = 'https://shaked-test-instagram.azurewebsites.net/history';
+$.ajax({
+    url: Url,
+    success: function(data) {
+		myobject = data;
+		for (obj in myobject) {
+			add_to_history_list(myobject[obj]);
+		}
+	}
+  });
+
+
+function add_to_history_list(val){
+	var ulist = document.getElementById("list1");
 	var newItem = document.createElement("li");
 	var a = document.createElement("a");
-	a.textContent = myobject[obj];
-	a.setAttribute('href', myobject[obj]);
+	a.textContent = val;
+	a.setAttribute('href', val);
 	newItem.appendChild(a);
 	ulist.appendChild(newItem);
 }
-
 
 function SearchInsta(){
 	const val = document.getElementById("searchVal").value;
@@ -44,6 +56,7 @@ function SearchInsta(){
     success: function(data) {
       document.getElementById("SerachResult").href = data;
 	  document.getElementById("SerachResult").innerHTML = data;
+	  add_to_history_list(data);
     }
   });
 }

@@ -1,6 +1,6 @@
 import mysql.connector
 from mysql.connector import errorcode
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from azure.cognitiveservices.search.websearch import WebSearchAPI
 from msrest.authentication import CognitiveServicesCredentials
 
@@ -30,6 +30,8 @@ def search_insta(val):
     web_data = client.web.search(query=val)
     for web_page in web_data.web_pages.value:
         if web_page.url.startswith("https://www.instagram.com/"):
+            cursor.execute("INSERT INTO history (person_name, link) VALUES ('{}', '{}')".format(val, web_page.url))
+            conn.commit()
             return web_page.url
 
 
@@ -37,6 +39,16 @@ def get_result_from_db(to_search):
     cursor.execute("SELECT * FROM history WHERE person_name = '{}'".format(to_search))
     res = cursor.fetchone()
     return res
+
+
+@app.route("/history")
+def get_history():
+    history = []
+    cursor.execute("SELECT * FROM history")
+    all = cursor.fetchall()
+    for res in all:
+        history.append(res[1])
+    return jsonify(history)
 
 
 @app.route("/")
