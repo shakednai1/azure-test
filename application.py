@@ -40,7 +40,7 @@ def hello():
 def search():
     to_search = request.args.get('value', 0)
     try:
-        res = "test"
+        res = "testtest"
         #res = get_result_from_db(to_search)
     except:
         res = search_insta(to_search)
