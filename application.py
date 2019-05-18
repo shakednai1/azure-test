@@ -44,7 +44,7 @@ def get_result_from_db(to_search):
 @app.route("/history")
 def get_history():
     history = []
-    cursor.execute("SELECT * FROM history")
+    cursor.execute("SELECT * FROM history ORDER BY search_date")
     all = cursor.fetchall()
     for res in all:
         history.append(res[1])
