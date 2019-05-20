@@ -1,3 +1,4 @@
+import os
 import mysql.connector
 from mysql.connector import errorcode
 from flask import Flask, render_template, request, jsonify
@@ -6,13 +7,11 @@ from msrest.authentication import CognitiveServicesCredentials
 
 app = Flask(__name__)
 
-# TODO: put subscription key in env vars
-subscription_key = "2e702b743ba744a6be5948828d355d6b"
+subscription_key = os.environ['BING_CLIENT']
 client = WebSearchAPI(CognitiveServicesCredentials(subscription_key))
 
-# TODO: put connection params in env vars
 try:
-    conn = mysql.connector.connect(user="shaked@shaked-test-db", password="Aa123456",
+    conn = mysql.connector.connect(user="shaked@shaked-test-db", password=os.environ['DB_PASS'],
                                   host="shaked-test-db.mysql.database.azure.com", port=3306, database="search-history")
     print("Connection established")
 except mysql.connector.Error as err:
